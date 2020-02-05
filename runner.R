@@ -17,10 +17,13 @@ source(here::here("drake_plan.R"))
 # run our drake plan
 make(plan)
 plan
+
 # visualize our drake plan as a network graph
 vis_drake_graph(config)
 
 # load and view our local interpretability plots
+loadd(global_plots)
+global_plots
 loadd(local_plots)
 local_plots
 

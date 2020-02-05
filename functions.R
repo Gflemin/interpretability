@@ -66,8 +66,8 @@ tasker = function(data, id, target) { # data: df produced by combiner (dataframe
   task
 }
 
-learn_gener = function(...) { # ... : a vector of learners (e.g c("regr.rpart", "regr.ranger"))
-  learners = map(..., lrn, predict_sets = c("train", "test"))
+learn_gener = function(lrn_list) { # ... : a vector of learners (e.g c("regr.rpart", "regr.ranger"))
+  learners = map(lrn_list, lrn, predict_sets = c("train", "test"))
   learners
 }
 
@@ -126,7 +126,12 @@ imler_global = function(trained_learners, data, target) {
   imp_plots = lapply(smol_imps, function(x) ggplot(x, aes(importance, reorder(feature, importance))) + 
                        geom_point(size = 3) +
                        geom_errorbarh(aes(xmin = importance.05, xmax = importance.95), size = 0.3))
-  imp_plots
+  imp_plots2 = list()
+  for (i in 1:2) {
+    imp_plots_2[[i]] = global_plots[[i]] + 
+      labs(x = "Importance", y = "Feature", title = paste("Permutation importance for", lrn_list[[i]]))
+  }
+  imp_plots2
 }
 
 imler_global2 = function(trained_learners, data, target, feature = NULL, ice = NULL, pdp_ice = NULL, pdp = NULL, ale = NULL) {
@@ -137,6 +142,11 @@ imler_global2 = function(trained_learners, data, target, feature = NULL, ice = N
   }
   ice_data
 }
+
+# still need to add...
+## 1. if conditions for imler_global2
+## 2. plots for imler_global2
+## 3. titles for imler_local plots
 
 
 #check = trainer(burn, boof, aye)
