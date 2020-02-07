@@ -14,15 +14,13 @@ plan = drake_plan(
   resample = resampler("cv", 4, 2),
   benchmarks = benchmarker(task, learners, resample, c("regr.mse", "regr.mape")),
   preds = predictor(trained_learners, task, datasets[[2]]),
-  data_clean = fixer(task, "sale_price"), # correct
-  global_plots = imler_global(trained_learners, data_clean[[1]], data_clean[[2]]), # correct
-  local_plots = imler_local(trained_learners, data_clean[[1]], data_clean[[2]], 131)
+  data_clean = fixer(task, "sale_price"), 
+  permutation_plots = imler_permutation(trained_learners, lrn_list, data_clean[[1]], data_clean[[2]]), 
+  global_plots = imler_global_plots(trained_learners, lrn_list, data_clean[[1]], data_clean[[2]], pdp_ice = TRUE, pdp = TRUE, feature = "gr_liv_area"),
+  local_plots = imler_local(trained_learners, lrn_list, data_clean[[1]], data_clean[[2]], observation = 122)
 )
 
 # configure our drake plan into a visualizable object
 config = drake_config(plan)
-
-# overall_cond, overall_qual, mo_sold, kitchen_abv_gr, half_bath, garage_cars, full_bath, fireplaces, bsmt_half_bath,
-# bsmt_full_bath, bedroom_abv_gr
 
 
